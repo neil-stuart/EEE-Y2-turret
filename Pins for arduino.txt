@@ -1,0 +1,17 @@
+D0: Din of XBee
+D1: Dout of XBee
+D2: Flywheel control
+D3 & D4: Back left wheel - 3rd pins
+D7 & D8: Front left wheel - 2nd pins
+D9: Pan Servo
+D10: Tilt Servo
+D11: Fire Servo
+
+A0 & A1: Front right wheel - 1st pins
+A2 & A3: Back right wheel - 4th pins
+
+A4 & A5: Keep free potentially for RasPi
+A6 & A7: Input only, maybe sensors in future
+
+All H - Bridge notation is from left to right 
+with front of car being side closest to H - Bridges
