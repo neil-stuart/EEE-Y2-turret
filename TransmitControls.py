@@ -10,9 +10,6 @@ debug = True;
 
 # Only called in debug mode.
 def print_rx_data():
-    # Regular expression for parsing data in.
-    data_pattern = re.compile(r'\[([^]]*)\]') 
-
     while True:
         if (zigbee_dongle.in_waiting>0):
             data_in = []
@@ -20,8 +17,7 @@ def print_rx_data():
                 try:
                     data_in = zigbee_dongle.read_all().decode("utf-8")
                 except UnicodeDecodeError as e:
-                    data_in = ["Problem decoding data."]      
-
+                    data_in = "Problem decoding data."      
                 print("data_received: " + str(data_in))
         
 

@@ -51,10 +51,14 @@ float rightJoyY = 0.0f;
 
 // Values needed for the loop to keep track of current state.
 long fireStartTime;
-boolean firing = false;
-boolean movingForwards, movingBackwards = false;
+
 boolean stopped = true;
-boolean flyWheelSpinning, lastLeftBumper = false;
+
+boolean firing = false;
+boolean movingForwards = false;
+boolean movingBackwards = false;
+boolean flyWheelSpinning = false;
+boolean lastLeftBumper = false;
 
 void setup()
 {
