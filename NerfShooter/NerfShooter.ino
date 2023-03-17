@@ -2,7 +2,7 @@
 
 // Size of the data received.
 // Has to be synchronised with the sending script packet length.
-const byte DATA_SIZE = 25;
+const byte DATA_SIZE = 28;
 
 // An array to hold the received data.
 char csv_in[DATA_SIZE];
@@ -12,7 +12,7 @@ const float SPEED = 0.05;
 const int fireExtendedPosition = 50;
 const int fireRetractedPosition = 100;
 const int fireTime = 350; // Total time taken to fire a bullet in milliseconds.
-const int tiltMinMax[2] = {85, 120};
+const int tiltMinMax[2] = {60, 100};
 const int panMinMax[2] = {30, 150};
 
 Servo tiltServo;
@@ -44,14 +44,15 @@ const byte BR2 = A3;
 // Variables to store the numerical values of the received data.
 boolean rightBumper = false;
 boolean leftBumper = false;
-float leftJoyX = 0.0f; // Ranges from -1 to 1.
+boolean leftTrig = false;
+boolean rightTrig = false;
 float rightJoyX = 0.0f;
 float rightJoyY = 0.0f; 
 
 // Values needed for the loop to keep track of current state.
 long fireStartTime;
 boolean firing = false;
-boolean movingForwards, movingBackwards;
+boolean movingForwards, movingBackwards = false;
 boolean stopped = true;
 boolean flyWheelSpinning, lastLeftBumper = false;
 
@@ -130,37 +131,61 @@ void loop()
   lastLeftBumper = leftBumper;
 
   // Movement
-  if (!movingForwards && leftJoyX>0)
-  {
-    movingForwards = true;
-    movingBackwards, stopped = false;
-    moveForwards();
+
+  if(!stopped && (rightTrig==leftTrig)){
+    stopped = true;
+    movingBackwards = false;
+    movingForwards = false;
+    stopMoving();
   }
 
-  if(!movingBackwards && leftJoyX<0){
-    movingBackwards = true;
-    movingForwards, stopped = false;
+  if(!movingForwards && rightTrig && !leftTrig){
+    movingForwards = true;
+    movingBackwards = false;
+    stopped = false;
     moveBackwards();
   }
 
-  if(!stopped && leftJoyX==0){
-    stopped = true;
-    movingBackwards, movingForwards = false;
-    stopMoving();
+  if(!movingBackwards && leftTrig && !rightTrig){
+    movingBackwards = true;
+    movingForwards = false;
+    stopped = false;
+    moveForwards();
   }
 
 }
 
 void moveForwards(){
-
+    digitalWrite(FR1, LOW);
+    digitalWrite(FR2, HIGH);
+    digitalWrite(BR1, LOW);
+    digitalWrite(BR2, HIGH);
+    digitalWrite(FL1, HIGH);
+    digitalWrite(FL2, LOW);
+    digitalWrite(BL1, HIGH);
+    digitalWrite(BL2, LOW);
 }
 
 void moveBackwards(){
-
+    digitalWrite(FR2, LOW);
+    digitalWrite(FR1, HIGH);
+    digitalWrite(BR2, LOW);
+    digitalWrite(BR1, HIGH);
+    digitalWrite(FL2, HIGH);
+    digitalWrite(FL1, LOW);
+    digitalWrite(BL2, HIGH);
+    digitalWrite(BL1, LOW);
 }
 
 void stopMoving(){
-
+    digitalWrite(FR1, HIGH);
+    digitalWrite(FR2, HIGH);
+    digitalWrite(BR1, HIGH);
+    digitalWrite(BR2, HIGH);
+    digitalWrite(FL1, HIGH);
+    digitalWrite(FL2, HIGH);
+    digitalWrite(BL1, HIGH);
+    digitalWrite(BL2, HIGH);
 }
 
 // Returns true if n is between the bounds in the form int[2] = [int min, int max]
@@ -173,12 +198,13 @@ boolean withinBounds(float n, const int bounds[2])
   return false;
 }
 
+
+static bool inProgress = false;
+static byte index = 0;
+
 // This method receives avaiable data and stores it in csv_in.
 void serialEvent()
 {
-  boolean dataReceived = false;
-  static bool inProgress = false;
-  static byte index = 0;
 
   // Indicator characters to begin/end a block of controller data.
   char startChar = '[';
@@ -186,7 +212,7 @@ void serialEvent()
 
   char lastReadChar;
   
-  while (Serial.available() > 0 && dataReceived == false)
+  while (Serial.available() > 0)
   {
     lastReadChar = (char) Serial.read();
 
@@ -194,9 +220,10 @@ void serialEvent()
     if (lastReadChar == startChar)
     {
       inProgress = true;
+      lastReadChar = (char) Serial.read();
     }
 
-    else if (inProgress == true)
+    if (inProgress == true)
     {
       // Terminating condition.
       if (lastReadChar == stopChar)
@@ -204,11 +231,9 @@ void serialEvent()
         csv_in[index] = '\0'; // Terminate the string.
         inProgress = false;
         index = 0;
-
         // Parse the data into its numerical values.
         parseData();
-
-        dataReceived = true;
+        break;
       }
 
       csv_in[index] = lastReadChar;
@@ -236,9 +261,13 @@ void parseData()
 
   // The first token is then retrieved and converted to a float value using atof().
   // The value is stored in a global variable called leftJoyX.
-  token = strtok(csv_in, ",");
-  leftJoyX = atof(token);
+  Serial.write(csv_in);
 
+  token = strtok(csv_in, ",");
+  leftTrig = atoi(token);
+  
+  token = strtok(NULL, ",");
+  rightTrig = atoi(token);
   // Subsequent tokens are retrieved using strtok() with NULL as the first argument.
   // This means that the function continues parsing the string from where it left off in the previous call.
 
@@ -248,7 +277,7 @@ void parseData()
 
   // The third token is converted to a float value and stored in a global variable called rightJoyY.
   token = strtok(NULL, ",");
-  rightJoyY = atof(token);
+  rightJoyY = -atof(token);
 
   // The fourth token is converted to an integer value and stored in a global variable called leftBumper.
   token = strtok(NULL, ",");
@@ -262,7 +291,5 @@ void parseData()
   // Convert the floats to ints (multiply by *100 first)
   // because floats arent supported by sprintf in the arduino compiler.
 
-  // char strBuf[33];
-  // sprintf(strBuf, "[%d\%%,%d\%%,%d\%%,%d,%d]", (int)(leftJoyX * 100), (int)(rightJoyX * 100), (int)(rightJoyY * 100), leftBumper, rightBumper);
-  // Serial.print(strBuf);
+  Serial.print(csv_in);
 }

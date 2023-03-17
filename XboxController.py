@@ -7,7 +7,7 @@ import os
 class XboxController(object):
     # Distance from 0 where joysticks will return 0, 
     # stops stick drift/unintentional movements.
-    deadzoneval = 0.05
+    deadzoneval = 0.3
 
     # Constants dont change, used to normalise 
     # joystick values between -1 and 1, e.g trig_val/MAX_TRIG_VAL
@@ -52,18 +52,18 @@ class XboxController(object):
     def read(self): # return the buttons/triggers that you care about.
 
         # For movement
-        xl = self.LeftJoystickX if self.deadzone(self.LeftJoystickX) else 0;
+        leftTrig = 1 if self.RightTrigger > 0.5 else 0
+        rightTrig = 1 if self.LeftTrigger > 0.5 else 0
 
         # For aiming
         dist = math.sqrt(math.pow(self.LeftJoystickX,2)+math.pow(self.LeftJoystickY,2))
-        xr = self.RightJoystickX if self.deadzone(dist) else 0
-        yr = self.RightJoystickY if self.deadzone(dist) else 0
+        right_X = self.RightJoystickX if self.deadzone(self.RightJoystickX) else 0
+        right_Y = self.RightJoystickY if self.deadzone(self.RightJoystickY) else 0
 
         # Cubing the joystick values to give finer control for small movements
         # due to the shallower more rounded curve instead of a linear increase.
-        xl = math.pow(xl,3)
-        xr = math.pow(xr,3)
-        yr = math.pow(yr,3)
+        right_X = math.pow(right_X,3)
+        right_Y = math.pow(right_Y,3)
 
         # Flywheel control
         lb = self.LeftBumper
@@ -71,7 +71,7 @@ class XboxController(object):
         # Fire button
         rb = self.RightBumper
         
-        return [xl,xr,yr,lb,rb]
+        return [rightTrig,leftTrig,right_X,right_Y,lb,rb]
 
 
     def _monitor_controller(self):
@@ -127,5 +127,3 @@ if __name__ == "__main__":
             last=joy.read();
             os.system('cls')
             print(joy.read())
-
-
