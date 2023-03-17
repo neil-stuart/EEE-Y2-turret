@@ -18,11 +18,10 @@ def print_rx_data():
                     data_in = zigbee_dongle.read_all().decode("utf-8")
                 except UnicodeDecodeError as e:
                     data_in = "Problem decoding data."      
-                print("data_received: " + str(data_in))
+                print("data_rxed: " + str(data_in))
         
-
 if __name__ == '__main__':
-    joy = XboxController()
+    controller = XboxController()
 
     # Start the thread that prints any data received if debugging, 
     # Using thread so it doesn't interfere with the sending of data.
@@ -32,13 +31,13 @@ if __name__ == '__main__':
         
     
     # Serial port for dongle, baudrate 115200.
-    data = joy.read()
+    data = controller.read()
     
     # Send data loop.
     while(True):
 
         # If controller readout not equal to last data sent.
-        if(joy.read()!=data):
+        if(controller.read()!=data):
 
             # The below flag blocks the receiving thread, 
             # if trying to receive at the same time as transmitting 
@@ -46,7 +45,7 @@ if __name__ == '__main__':
             transmitting = True;
 
             # Read controller into current input.
-            data = joy.read();
+            data = controller.read();
 
             # Convert to string of known length.
             string = "[%d,%d,%.2f,%.2f,%d,%d]"%(data[0],data[1],data[2],data[3],data[4],data[5])
@@ -60,4 +59,4 @@ if __name__ == '__main__':
             # Allow receive.
             transmitting = False;
             
-            print("data_transmitted: " + string[1:-1])
+            print("data_txed: " + string[1:-1])
