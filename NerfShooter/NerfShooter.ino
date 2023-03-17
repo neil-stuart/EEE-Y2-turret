@@ -99,15 +99,18 @@ void loop()
 {
   // Control the aiming servos.
   // Vertical Aim - First check if within aim bounds and then write the new angle if true.
-  if (withinBounds(tiltPosition + (rightJoyY * SPEED), tiltMinMax))
+  const float nextTiltPosition = tiltPosition + (rightJoyY * SPEED); 
+  const float nextPanPosition = panPosition + (rightJoyX * SPEED);
+
+  if (withinBounds(nextTiltPosition, tiltMinMax))
   {
-    tiltServo.write(tiltPosition += rightJoyY * SPEED);
+    tiltServo.write(tiltPosition = nextTiltPosition);
   }
 
   // Horizontal Aim
-  if (withinBounds(panPosition + (rightJoyX * SPEED), panMinMax))
+  if (withinBounds(nextPanPosition, panMinMax))
   {
-    panServo.write(panPosition += rightJoyX * SPEED);
+    panServo.write(panPosition = nextPanPosition);
   }
 
   // Check if fire button pressed, if so, fire a bullet. 175 ms forward  & 175ms back
@@ -201,7 +204,6 @@ boolean withinBounds(float n, const int bounds[2])
   }
   return false;
 }
-
 
 static bool inProgress = false;
 static byte index = 0;
