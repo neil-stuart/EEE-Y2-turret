@@ -261,21 +261,22 @@ void parseData()
   // A pointer to a character (char *) called token is declared to store the parsed values.
   char *token;
 
-  // strtok() is a C library function used to parse a string (in this case, csv_in)
+  // strtok() is a C library function used to parse a char array (in this case, csv_in)
   // into tokens (i.e., substrings) based on a specified delimiter (",").
   // Here, it is called with csv_in as the first argument, and a comma as the delimiter.
 
-  // The first token is then retrieved and converted to a float value using atof().
-  // The value is stored in a global variable called leftJoyX.
+  // The first token is retrieved and converted to a float value using atof().
+  // The value is stored in a global variable.
   Serial.write(csv_in);
 
   token = strtok(csv_in, ",");
   leftTrig = atoi(token);
   
-  token = strtok(NULL, ",");
-  rightTrig = atoi(token);
   // Subsequent tokens are retrieved using strtok() with NULL as the first argument.
   // This means that the function continues parsing the string from where it left off in the previous call.
+
+  token = strtok(NULL, ",");
+  rightTrig = atoi(token);
 
   // The second token is converted to a float value and stored in a global variable called rightJoyX.
   token = strtok(NULL, ",");
@@ -293,9 +294,6 @@ void parseData()
   token = strtok(NULL, ",");
   rightBumper = atoi(token);
 
-  // Code to send back the values parsed, for debugging.
-  // Convert the floats to ints (multiply by *100 first)
-  // because floats arent supported by sprintf in the arduino compiler.
-
-  Serial.print(csv_in);
+  // Debug print.
+  // Serial.print(csv_in);
 }
