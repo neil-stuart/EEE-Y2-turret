@@ -55,23 +55,18 @@ class XboxController(object):
         leftTrig = 1 if self.RightTrigger > 0.5 else 0
         rightTrig = 1 if self.LeftTrigger > 0.5 else 0
 
-        # For aiming
-        dist = math.sqrt(math.pow(self.LeftJoystickX,2)+math.pow(self.LeftJoystickY,2))
-        right_X = self.RightJoystickX if self.deadzone(self.RightJoystickX) else 0
-        right_Y = self.RightJoystickY if self.deadzone(self.RightJoystickY) else 0
+        r = self.RightDPad
+        l = -self.LeftDPad
+        horiz = r+l;
+        horiz = 0 if horiz == 2 else horiz
 
-        # Cubing the joystick values to give finer control for small movements
-        # due to the shallower more rounded curve instead of a linear increase.
-        right_X = math.pow(right_X,3)
-        right_Y = math.pow(right_Y,3)
-
-        # Flywheel control
-        lb = self.LeftBumper
         
-        # Fire button
-        rb = self.RightBumper
+        u = self.UpDPad
+        d = -self.DownDPad
+        vert = u+d;
+        vert = 0 if vert == 2 else vert
         
-        return [rightTrig,leftTrig,right_X,right_Y,lb,rb]
+        return [leftTrig,rightTrig,horiz,vert,self.LeftBumper,self.RightBumper]
 
 
     def _monitor_controller(self):

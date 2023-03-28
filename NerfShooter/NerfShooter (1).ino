@@ -31,7 +31,7 @@ const byte fireServoPin = 11;
 // Fly wheel control pin D2
 const byte flyWheelPin = 2; 
 
-// H-Bridge pins L = left side motors, R = rigth side motors etc..
+// H-Bridge pins FR = front right motor, BR = back right motor etc..
 const byte L1 = A0; 
 const byte L2 = A1;
 const byte R1 = A2; 
@@ -83,7 +83,7 @@ void setup()
 
   pinMode(flyWheelPin, OUTPUT);
 
-  stopMoving();
+  //stopMoving();
 }
 
 void loop()
@@ -129,8 +129,24 @@ void loop()
   lastLeftBumper = leftBumper;
 
   // Movement
-
-  if(!stopped && (rightTrig==leftTrig)){
+  if(rightTrig && !leftTrig){
+    digitalWrite(R1, LOW);
+    digitalWrite(R2, HIGH);
+    digitalWrite(L1, LOW);
+    digitalWrite(L2, HIGH);
+  }else if(leftTrig && !rightTrig){
+    digitalWrite(R1, HIGH);
+    digitalWrite(R2, LOW);
+    digitalWrite(L1, HIGH);
+    digitalWrite(L2, LOW);
+  } else if((leftTrig && rightTrig) || (!leftTrig && !rightTrig)){
+    digitalWrite(R1, LOW);
+    digitalWrite(R2, LOW);
+    digitalWrite(L1, LOW);
+    digitalWrite(L2, LOW);
+  }
+}
+  /*if(!stopped && (rightTrig==leftTrig)){
     stopped = true;
     movingBackwards = false;
     movingForwards = false;
@@ -172,7 +188,7 @@ void stopMoving(){
     digitalWrite(R2, HIGH);
     digitalWrite(L1, HIGH);
     digitalWrite(L2, HIGH);
-}
+}*/
 
 // Returns true if n is between the bounds in the form int[2] = [int min, int max]
 boolean withinBounds(float n, const int bounds[2])
