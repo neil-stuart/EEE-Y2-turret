@@ -1,7 +1,7 @@
 # Dart-Shooting Robot Project 🤖
 
 ## Overview
-This project was a key component of our second-year robotics course, undertaken in collaboration with Xperi Galway in the spring of 2023. The aim was to construct a remote-controlled dart-shooting robot for a class competition, blending aspects of mechanical design, electronics, and control systems.
+This project was a key component of our second-year robotics course, undertaken during the spring of 2023. The aim was to construct a remote-controlled dart-shooting robot for a class competition, blending aspects of mechanical design, electronics, and control systems.
 
 ## Features 🚀
 - Remote control via Zigbee for wireless operation 📡.
