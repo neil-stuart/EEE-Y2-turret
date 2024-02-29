@@ -1,35 +1,35 @@
-# Dart-Shooting Robot Project
+# Dart-Shooting Robot Project 🤖
 
 ## Overview
-This project was part of our second-year robotics course, conducted during the spring of 2023. The objective was to build a remote-controlled dart-shooting robot for a class competition, focusing on the integration of mechanical design, electronics, and control systems.
+This project was a key component of our second-year robotics course, undertaken in collaboration with Xperi Galway in the spring of 2023. The aim was to construct a remote-controlled dart-shooting robot for a class competition, blending aspects of mechanical design, electronics, and control systems.
 
-## Features
-- Remote-controlled operation using Zigbee for wireless communication.
-- Dart shooting mechanism designed for competitive use.
-- Custom-designed power delivery system for motor and servo operation.
-- Electronic schematics and PCB design for the robot's circuitry.
+## Features 🚀
+- Remote control via Zigbee for wireless operation 📡.
+- Competitive dart shooting mechanism 🎯.
+- Custom power delivery system for efficient motor and servo use 🔋.
+- Designed electronic schematics and PCB for the robot's circuitry 🛠️.
 
-## Technologies Used
-- **Arduino**: For control logic and operations.
-- **Zigbee**: For remote communication.
-- **KiCAD**: For PCB layout and design.
-- **Fusion360**: For mechanical parts design and 3D printing.
+## Technologies Used 💻
+- **Arduino**: Core control logic.
+- **Zigbee**: Remote communication.
+- **KiCAD**: PCB design.
+- **Fusion360**: Mechanical design and 3D printing.
 
-## Project Challenges
-- Balancing power efficiency with the demands of motors and servos.
-- Ensuring reliable wireless control for real-time operations.
-- Integrating electronic and mechanical components effectively.
+## Project Challenges 😅
+- Achieving power efficiency for motors and servos.
+- Maintaining reliable wireless control.
+- Effective integration of electronic and mechanical parts.
 
-## Outcomes
-- Developed a power delivery system that met our efficiency and reliability needs.
-- Gained experience in team-based project development and execution.
-- Enhanced skills in digital circuit design, PCB layout, and mechanical-electronics integration.
+## Outcomes ✨
+- Efficient and reliable power delivery system.
+- Experience in collaborative project development.
+- Improved skills in circuit and mechanical design integration.
 
-## Future Improvements
-- Investigating autonomous navigation capabilities.
-- Upgrading control systems for better precision.
+## Future Improvements 🌟
+- Explore autonomous navigation features.
+- Enhance control system accuracy.
 
-## Project Reflections
-This project offered practical experience in robotics, emphasizing teamwork, problem-solving, and the application of theoretical knowledge to a tangible product.
+## Project Reflections 📚
+Offered valuable hands-on experience in robotics, highlighting the importance of teamwork, problem-solving, and practical application of engineering principles.
 
-For more details or inquiries, please contact [Neil Stuart](mailto:neil.stuart11@gmail.com).
+For more information, feel free to contact [Neil Stuart](mailto:neil.stuart11@gmail.com).
