@@ -15,12 +15,12 @@ This project was a key component of our second-year robotics course, undertaken 
 - **KiCAD**: PCB design.
 - **Fusion360**: Mechanical design and 3D printing.
 
-## Project Challenges 😅
+## Project Challenges 
 - Achieving power efficiency for motors and servos.
 - Maintaining reliable wireless control.
 - Effective integration of electronic and mechanical parts.
 
-## Outcomes ✨
+## Outcomes 
 - Efficient and reliable power delivery system.
 - Experience in collaborative project development.
 - Improved skills in circuit and mechanical design integration.
